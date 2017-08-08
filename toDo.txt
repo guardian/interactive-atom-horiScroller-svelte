@@ -1,0 +1,11 @@
+1. Lazy load
+
+2. Padding at the end of scroll
+
+3. Smaller images for mobile
+
+4 . Initial scroll in
+
+• Hold when headerbanner goes out of view 
+• Scroll in text caption
+• Scroll image slider 
