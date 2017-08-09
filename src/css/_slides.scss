@@ -53,6 +53,7 @@ $cappy-h-desktop: 216px;
 
 	img{
 		max-height: $mobile-max-h;
+		
 	}
 
 	@include mq(desktop){

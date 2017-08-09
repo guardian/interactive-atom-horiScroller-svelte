@@ -50,9 +50,12 @@ function initDesktop(){
 				       	widthsArr.push (slideEl.offsetWidth)
 
 				       	if(widthsArr.length == numSlides){
-				       		console.log(H - document.documentElement.offsetWidth)
+				       		
+				       		// console.log(H - document.documentElement.offsetWidth)
 
-				       		wrapEl.setAttribute("style","height:"+(H - document.documentElement.offsetWidth)+"px");
+				       		console.log("scrollEl - h", scrollerEl.getBoundingClientRect() )
+
+				       		wrapEl.setAttribute("style","height:"+ (H - document.documentElement.offsetWidth ) +"px");
 				       	}
 						
 				    }; 
@@ -66,35 +69,92 @@ function initDesktop(){
 }
 
 
+function getScroll() {
+    var target = $("#target");
+    $("#source").scroll(function() {
+      target.prop("scrollTop", this.scrollTop)
+            .prop("scrollLeft", this.scrollLeft);
+    });
+ }
+
+	var noTweak = true;
+
 function addListenersDesktop(){
-	document.addEventListener("scroll", function(event) {
+
+	
+//https://stackoverflow.com/questions/16376794/on-div-scroll-activate-another-divs-scroll
+
+
+  document.addEventListener("scroll", function(){
+
+  		//wrapEl.setAttribute("style","height:"+(H - document.documentElement.offsetWidth )+"px");
+
+// + ( scrollerEl.getBoundingClientRect().bottom - headEl.offsetHeight )
+  		// console.log("wrapEl - h", wrapEl.getBoundingClientRect(), wrapEl.offsetHeight)
+  		 
+  		// console.log("docEl - h", document.documentElement.getBoundingClientRect())
+
+  		document.getElementById('slideWrapper').classList.add('fixed');
+  		scrollerEl.style.transform = "translateX("+(document.documentElement.getBoundingClientRect().top)+"px)";
+
+  		scrollerEl.scrollLeft = document.documentElement.scrollTop;
+
+  		if (noTweak){
+  			let newH = wrapEl.getBoundingClientRect().height + (scrollerEl.getBoundingClientRect().height - headEl.offsetHeight);
+			wrapEl.setAttribute("style","height:"+ newH +"px");
+
+			noTweak=false;
+  		}
+
+
+  })
+
+
+
+  //   document.addEventListener("scroll", function(){
+  // 		console.log("pos",  wrapEl.getBoundingClientRect(), wrapEl.offsetTop) 
+
+  // 		document.getElementById('slideWrapper').classList.add('fixed');
+
+  // 		//scrollerEl.style.transform = "translateX("+(0- 174 - wrapEl.getBoundingClientRect().top )+"px)";
+
+  // 		// CLOSE scrollerEl.style.transform = "translateX("+(0 - wrapEl.getBoundingClientRect().bottom)+"px)";
+
+  // 		scrollerEl.scrollLeft = document.documentElement.scrollTop;
+
+
+  // })
+
+
+
+	// document.addEventListener("scroll", function(event) {
 	             
 	            
-	            	document.getElementById('slideWrapper').classList.add('fixed');
+	//             	document.getElementById('slideWrapper').classList.add('fixed');
 
-	            	var sx, sy;
-			             if(window.pageYOffset!= undefined){
-			                sx = pageXOffset;
-			                sy = pageYOffset;
-			             }
-			             else{
-				            var d = document, r = d.documentElement, b = d.body;
-				              sx= r.scrollLeft || b.scrollLeft || 0;
-				              sy= r.scrollTop || b.scrollTop || 0;
-			             }
+	//             	var sx, sy;
+	// 		             if(window.pageYOffset!= undefined){
+	// 		                sx = pageXOffset;
+	// 		                sy = pageYOffset;
+	// 		             }
+	// 		             else{
+	// 			            var d = document, r = d.documentElement, b = d.body;
+	// 			              sx= r.scrollLeft || b.scrollLeft || 0;
+	// 			              sy= r.scrollTop || b.scrollTop || 0;
+	// 		             }
 
-		             //console.log(wrapEl.getBoundingClientRect(), document.documentElement.offsetWidth, document.documentElement.offsetHeight)
-		             scrollSlider ([sx, sy]);
+	// 	             //console.log(wrapEl.getBoundingClientRect(), document.documentElement.offsetWidth, document.documentElement.offsetHeight)
+	// 	             scrollSlider ([sx, sy]);
 
-		        //introPlayed ? scrollSlider ([sx, sy]): scrollIntro([sx, sy]);
+	// 	        //introPlayed ? scrollSlider ([sx, sy]): scrollIntro([sx, sy]);
 
-				// if(visibleY(headEl)) {
+	// 			// if(visibleY(headEl)) {
 
-	   //          }else{
-	   //          	scrollerEl.style.transform = "translateX(0px)";
-	   //          	document.getElementById('slideWrapper').classList.remove('fixed');
-	   //          }
-	    });
+	//    //          }else{
+	//    //          	scrollerEl.style.transform = "translateX(0px)";
+	//    //          	document.getElementById('slideWrapper').classList.remove('fixed');
+	//    //          }
+	//     });
 
 
 }
