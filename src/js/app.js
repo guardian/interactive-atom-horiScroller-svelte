@@ -1,12 +1,12 @@
 import lazysizes from 'lazysizes'
 
 let H;
+let screenFormat;
 let wrapEl;
 let headEl;
-
-let scrollerEl = document.getElementById("slideScroller");
-let screenFormat;
-let introEl = document.getElementById("introCappy");
+let widthsArr = [];
+let scrollerEl;
+let introEl;
 let introPlayed = false;
 
 console.log(lazysizes)
@@ -16,7 +16,8 @@ function init(){
 	H = 0;
 	headEl = document.getElementById("bannerandheader");
 	wrapEl = document.querySelector(".gv-wrap-all");
-
+	scrollerEl = document.getElementById("slideScroller")
+    introEl = document.getElementById("introCappy");
 	
 	checkScreenSize();
 }
@@ -32,34 +33,35 @@ function initMobile(){
 	// wrapAll.setAttribute("style","height:"+H+"px");
 	// console.log()
 	// addListenersDesktop();
+	console.log("mobile")
 }
 
 
 function initDesktop(){
-	//wrapAll.setAttribute("style","height:"+H+"px");
-	let slideCount = 0;
-	let imgCount = 0;
+	
+	let numSlides = document.getElementsByClassName('gv-slide-item').length;
+
 	[].slice.apply(document.getElementsByClassName('gv-slide-item')).forEach(slideEl => {
-		slideCount++; 
+
 			[].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
 					imgEl.onload = function () {
 				        //console.log ("The image has loaded!", imgEl.offsetWidth);   
 				        H += slideEl.offsetWidth; 
-				        wrapEl.style.height = H;
-				        console.log(slideCount, H);
+				       	widthsArr.push (slideEl.offsetWidth)
 
-				    };
+				       	if(widthsArr.length == numSlides){
+				       		console.log(H - document.documentElement.offsetWidth)
+
+				       		wrapEl.setAttribute("style","height:"+(H - document.documentElement.offsetWidth)+"px");
+				       	}
+						
+				    }; 
+				     
 				});
-		// imgEl.
-		// imgEl.load(function() {
-		// 	  console.log(slideEl.offsetWidth) 	
-		// 	  H += slideEl.offsetWidth;
-		// 	});
-
- 	  
+			
+ 	 
 	});
 
-	
 	addListenersDesktop();
 }
 
@@ -67,25 +69,31 @@ function initDesktop(){
 function addListenersDesktop(){
 	document.addEventListener("scroll", function(event) {
 	             
-	            if(visibleY(headEl)) {
+	            
 	            	document.getElementById('slideWrapper').classList.add('fixed');
 
 	            	var sx, sy;
-		             if(window.pageYOffset!= undefined){
-		                sx = pageXOffset;
-		                sy = pageYOffset;
-		             }
-		             else{
-			            var d = document, r = d.documentElement, b = d.body;
-			              sx= r.scrollLeft || b.scrollLeft || 0;
-			              sy= r.scrollTop || b.scrollTop || 0;
-		             }
-		             introPlayed ? scrollSlider ([sx, sy]): scrollIntro([sx, sy]);
+			             if(window.pageYOffset!= undefined){
+			                sx = pageXOffset;
+			                sy = pageYOffset;
+			             }
+			             else{
+				            var d = document, r = d.documentElement, b = d.body;
+				              sx= r.scrollLeft || b.scrollLeft || 0;
+				              sy= r.scrollTop || b.scrollTop || 0;
+			             }
 
-	            }else{
-	            	scrollerEl.style.transform = "translateX(0px)";
-	            	document.getElementById('slideWrapper').classList.remove('fixed');
-	            }
+		             //console.log(wrapEl.getBoundingClientRect(), document.documentElement.offsetWidth, document.documentElement.offsetHeight)
+		             scrollSlider ([sx, sy]);
+
+		        //introPlayed ? scrollSlider ([sx, sy]): scrollIntro([sx, sy]);
+
+				// if(visibleY(headEl)) {
+
+	   //          }else{
+	   //          	scrollerEl.style.transform = "translateX(0px)";
+	   //          	document.getElementById('slideWrapper').classList.remove('fixed');
+	   //          }
 	    });
 
 
@@ -93,14 +101,19 @@ function addListenersDesktop(){
 
 
 function scrollSlider(s){
-	let newX = (0 - s[1]);
-	console.log(s);
-	scrollerEl.style.transform = "translateX("+(newX + headEl.offsetHeight)+"px)";
-	// var a = wrapAll.scrollTop;
-	// var b = wrapAll.scrollHeight - wrapAll.clientHeight;
-	//var c = a/b; //% of scroll --- https://stackoverflow.com/questions/2481350/how-to-get-scrollbar-position-with-javascript
 
-	//console.log(a,b)
+	//console.log(s[1])
+	let newX = (0 - s[1]);
+
+	// if(newX > (0 - document.documentElement.offsetWidth)){ - document.documentElement.offsetWidth
+		scrollerEl.style.transform = "translateX("+(newX - document.documentElement.offsetWidth)+"px)";
+
+	//}
+	
+	var a = wrapEl.scrollTop;
+	var b = wrapEl.offsetHeight - wrapEl.scrollTop;
+	// var c = a/b; //% of scroll --- https://stackoverflow.com/questions/2481350/how-to-get-scrollbar-position-with-javascript
+	console.log(a,b);
 
 	if ((headEl.getBoundingClientRect().top  * -1 ) > 2000){
 		introPlayed = false;
@@ -118,22 +131,10 @@ function scrollIntro(s){
 
 		console.log(newPos)
 	}
-
-	
-	
-
-	
-
-	
-	
-    
-	
 }
 
 function visibleY(el){
-
 	return (el.offsetHeight * -1) > el.getBoundingClientRect().top;
-
 }
 
 
@@ -142,12 +143,7 @@ init();
 
 
 
-
-
-
-
-
-///////////////timer if needed
+///////////////timer
 
 
 	// wrapAll.addEventListener("scroll", doThisStuffOnScroll);
