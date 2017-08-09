@@ -1,4 +1,4 @@
-1. Lazy load
+1. Lazy load / preload images
 
 2. Padding at the end of scroll
 

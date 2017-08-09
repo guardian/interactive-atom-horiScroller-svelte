@@ -1,20 +1,23 @@
+import lazysizes from 'lazysizes'
+
 let H;
-let wrapAll;
+let wrapEl;
 let headEl;
+
 let scrollerEl = document.getElementById("slideScroller");
 let screenFormat;
 let introEl = document.getElementById("introCappy");
 let introPlayed = false;
 
+console.log(lazysizes)
+
 function init(){
 	document.documentElement.offsetWidth > 979 ? screenFormat = "desktop" : screenFormat = "mobile";	
 	H = 0;
 	headEl = document.getElementById("bannerandheader");
-	wrapAll = document.querySelector(".gv-wrap-all");
+	wrapEl = document.querySelector(".gv-wrap-all");
 
-	[].slice.apply(document.querySelectorAll('.gv-slide-item')).forEach(slideEl => {
- 	   	H += slideEl.offsetWidth;
-	});
+	
 	checkScreenSize();
 }
 
@@ -24,9 +27,39 @@ function checkScreenSize(){
 }
 
 
+
+function initMobile(){
+	// wrapAll.setAttribute("style","height:"+H+"px");
+	// console.log()
+	// addListenersDesktop();
+}
+
+
 function initDesktop(){
-	wrapAll.setAttribute("style","height:"+H+"px");
-	console.log()
+	//wrapAll.setAttribute("style","height:"+H+"px");
+	let slideCount = 0;
+	let imgCount = 0;
+	[].slice.apply(document.getElementsByClassName('gv-slide-item')).forEach(slideEl => {
+		slideCount++; 
+			[].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
+					imgEl.onload = function () {
+				        //console.log ("The image has loaded!", imgEl.offsetWidth);   
+				        H += slideEl.offsetWidth; 
+				        wrapEl.style.height = H;
+				        console.log(slideCount, H);
+
+				    };
+				});
+		// imgEl.
+		// imgEl.load(function() {
+		// 	  console.log(slideEl.offsetWidth) 	
+		// 	  H += slideEl.offsetWidth;
+		// 	});
+
+ 	  
+	});
+
+	
 	addListenersDesktop();
 }
 
