@@ -33,7 +33,7 @@ function initMobile() {
     console.log("mobile");
     introCaptionEl.style.bottom = "0px";
 
-        addListenersMobile();
+    addListenersMobile();
 }
 
 
@@ -99,10 +99,10 @@ function addListenersDesktop() {
 }
 
 function addListenersMobile(){
-	document.addEventListener("scroll", function() {
+	introPanelEl.addEventListener("click", function() {
 		introPanelEl.classList.add("remove");
 
-	}
+	})
 
 }
 
