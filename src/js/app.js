@@ -33,7 +33,11 @@ function initMobile(){
 	// wrapAll.setAttribute("style","height:"+H+"px");
 	// console.log()
 	// addListenersDesktop();
-	console.log("mobile")
+	let mobH = document.documentElement.offsetHeight - 300;
+	document.querySelector(".gv-fade-out").classList.add("remove")
+	// document.querySelector("#slideWrapper").style.height = mobH +"px"
+	console.log("mobile");
+	introEl.style.bottom = "0px";
 }
 
 
@@ -56,6 +60,9 @@ function initDesktop(){
 				       		console.log("scrollEl - h", scrollerEl.getBoundingClientRect() )
 
 				       		wrapEl.setAttribute("style","height:"+ (H - document.documentElement.offsetWidth ) +"px");
+				       	
+				       		document.querySelector(".gv-fade-out").classList.add("remove")
+
 				       	}
 						
 				    }; 
@@ -66,6 +73,7 @@ function initDesktop(){
 	});
 
 	addListenersDesktop();
+
 }
 
 
@@ -83,28 +91,42 @@ function addListenersDesktop(){
 
 	
 //https://stackoverflow.com/questions/16376794/on-div-scroll-activate-another-divs-scroll
+	
+	
 
 
   document.addEventListener("scroll", function(){
 
-  		//wrapEl.setAttribute("style","height:"+(H - document.documentElement.offsetWidth )+"px");
+  		console.log((visibleY(headEl)))		
 
-// + ( scrollerEl.getBoundingClientRect().bottom - headEl.offsetHeight )
-  		// console.log("wrapEl - h", wrapEl.getBoundingClientRect(), wrapEl.offsetHeight)
-  		 
-  		// console.log("docEl - h", document.documentElement.getBoundingClientRect())
+
 
   		document.getElementById('slideWrapper').classList.add('fixed');
-  		scrollerEl.style.transform = "translateX("+(document.documentElement.getBoundingClientRect().top)+"px)";
+  		
 
-  		scrollerEl.scrollLeft = document.documentElement.scrollTop;
+  		//scrollerEl.scrollLeft = document.documentElement.scrollTop;
 
   		if (noTweak){
   			let newH = wrapEl.getBoundingClientRect().height + (scrollerEl.getBoundingClientRect().height - headEl.offsetHeight);
 			wrapEl.setAttribute("style","height:"+ newH +"px");
-
 			noTweak=false;
   		}
+
+
+  		// if(visibleY(headEl)){
+
+  			// if(headEl.getBoundingClientRect().top > (0 - headEl.getBoundingClientRect().height) ){
+  			// 	let newT =   (headEl.getBoundingClientRect().top  * -1) - (0-headEl.getBoundingClientRect().height);
+  			// 	console.log(headEl.getBoundingClientRect().height , headEl.getBoundingClientRect().top * -1)
+  			// 	introEl.setAttribute("style","bottom:"+ newT +"px");
+
+  			// 	//introEl.style.transform = "translateY("+(document.documentElement.getBoundingClientRect().top )+"px)";
+  			// }
+
+
+  			//introEl.classList.add("ani");
+  			scrollerEl.style.transform = "translateX("+(document.documentElement.getBoundingClientRect().top )+"px)";
+  		//}
 
 
   })
@@ -112,6 +134,7 @@ function addListenersDesktop(){
 
 
   //   document.addEventListener("scroll", function(){
+
   // 		console.log("pos",  wrapEl.getBoundingClientRect(), wrapEl.offsetTop) 
 
   // 		document.getElementById('slideWrapper').classList.add('fixed');
@@ -173,7 +196,7 @@ function scrollSlider(s){
 	var a = wrapEl.scrollTop;
 	var b = wrapEl.offsetHeight - wrapEl.scrollTop;
 	// var c = a/b; //% of scroll --- https://stackoverflow.com/questions/2481350/how-to-get-scrollbar-position-with-javascript
-	console.log(a,b);
+	//console.log(a,b);
 
 	if ((headEl.getBoundingClientRect().top  * -1 ) > 2000){
 		introPlayed = false;

@@ -1,10 +1,14 @@
-1. Lazy load / preload images
+1. Lazy load / preload images XX
 
-2. Padding at the end of scroll
+2. Padding at the end of scroll XX
 
-3. Smaller images for mobile
+3. Smaller images for mobile  XX
 
-4 . Initial scroll in
+4 . Initial scroll in 
+
+5. Preload - glass XX
+
+6. Lazyload small img sizes
 
 • Hold when headerbanner goes out of view 
 • Scroll in text caption

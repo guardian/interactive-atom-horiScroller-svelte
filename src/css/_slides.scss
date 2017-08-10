@@ -7,7 +7,6 @@ $cappy-h-desktop: 216px;
 .gv-slide-wrapper{
 	position:relative;
 	width:auto;
-
 	height: 100%;
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -32,13 +31,15 @@ $cappy-h-desktop: 216px;
 
 .gv-slides-container{
 	position:relative;
-	height: 100%;
+	height: 100vh;
+	padding-top:12px;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
     word-spacing:0;
     background-color:#000;
     @include mq(desktop){
+    	height: 100vh;
 		overflow-x: hidden;
     	overflow-y: hidden;
 	}	
@@ -49,17 +50,17 @@ $cappy-h-desktop: 216px;
 	display:inline-block;	
 	width:auto;
 	height: 100%;
-	max-height: $mobile-max-h;
+	// max-height: $mobile-max-h;
 
 	img{
-		max-height: $mobile-max-h;
+		height:100%;
 		
 	}
 
 	@include mq(desktop){
-		max-height: $desktop-max-h;
+		//max-height: $desktop-max-h;
 		img{
-			max-height: $desktop-max-h;
+			height:100%;
 		}
 		
 	}
@@ -103,11 +104,20 @@ $cappy-h-desktop: 216px;
 			}
 
 			&.opening{
-				bottom: $cappy-h-desktop;
+				left: 60px;
+				bottom: -316px;
+
+				&.ani{
+					left: 60px;
+					bottom: 36px;
+					transition: 0.5s linear;
+				}
 				// -webkit-transition-property: bottom; /* Safari */
 			 //    -webkit-transition-duration: 5s; /* Safari */
 			 //    transition-property: bottom;
 			 //    transition-duration: 5s;
+
+
 
 			}
 			
@@ -116,7 +126,25 @@ $cappy-h-desktop: 216px;
 	}
 }
 
+.gv-fade-out{
+	position:absolute;
+	top: 0;
+	left:0;
+	height: 100vh;
+	width:100%;
+	background-color:rgba(black,1);
 
+	&.fade {
+	  opacity: 0.75;
+	  transition: opacity 1.5s linear;
+	}
+
+	&.remove {
+	  visibility: hidden;
+	  opacity: 0;
+	  transition: visibility 0s 3s, opacity 3s linear;
+	}
+}
 .gv-slide-wrapper, .gv-slides-container, .gv-slide-item{
 	//max-height:852px;
 }
