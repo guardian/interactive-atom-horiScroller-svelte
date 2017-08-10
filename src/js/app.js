@@ -11,237 +11,165 @@ let introPlayed = false;
 
 console.log(lazysizes)
 
-function init(){
-	document.documentElement.offsetWidth > 979 ? screenFormat = "desktop" : screenFormat = "mobile";	
-	H = 0;
-	headEl = document.getElementById("bannerandheader");
-	wrapEl = document.querySelector(".gv-wrap-all");
-	scrollerEl = document.getElementById("slideScroller")
+function init() {
+    document.documentElement.offsetWidth > 979 ? screenFormat = "desktop" : screenFormat = "mobile";
+    H = 0;
+    headEl = document.getElementById("bannerandheader");
+    wrapEl = document.querySelector(".gv-wrap-all");
+    scrollerEl = document.getElementById("slideScroller")
     introEl = document.getElementById("introCappy");
-	
-	checkScreenSize();
+
+    checkScreenSize();
 }
 
 
-function checkScreenSize(){
-	screenFormat == "desktop" ? initDesktop() : initMobile();
+function checkScreenSize() {
+    screenFormat == "desktop" ? initDesktop() : initMobile();
 }
 
 
-
-function initMobile(){
-	// wrapAll.setAttribute("style","height:"+H+"px");
-	// console.log()
-	// addListenersDesktop();
-	let mobH = document.documentElement.offsetHeight - 300;
-	document.querySelector(".gv-fade-out").classList.add("remove")
-	// document.querySelector("#slideWrapper").style.height = mobH +"px"
-	console.log("mobile");
-	introEl.style.bottom = "0px";
+function initMobile() {
+    // wrapAll.setAttribute("style","height:"+H+"px");
+    // console.log()
+    // addListenersDesktop();
+    let mobH = document.documentElement.offsetHeight - 300;
+    document.querySelector(".gv-fade-out").classList.add("remove")
+        // document.querySelector("#slideWrapper").style.height = mobH +"px"
+    console.log("mobile");
+    introEl.style.bottom = "0px";
 }
 
 
-function initDesktop(){
-	
-	let numSlides = document.getElementsByClassName('gv-slide-item').length;
+function initDesktop() {
 
-	[].slice.apply(document.getElementsByClassName('gv-slide-item')).forEach(slideEl => {
+    let numSlides = document.getElementsByClassName('gv-slide-item').length;
 
-			[].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
-					imgEl.onload = function () {
-				        //console.log ("The image has loaded!", imgEl.offsetWidth);   
-				        H += slideEl.offsetWidth; 
-				       	widthsArr.push (slideEl.offsetWidth)
+    [].slice.apply(document.getElementsByClassName('gv-slide-item')).forEach(slideEl => {
 
-				       	if(widthsArr.length == numSlides){
-				       		
-				       		// console.log(H - document.documentElement.offsetWidth)
+        [].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
+            imgEl.onload = function() {
+                //console.log ("The image has loaded!", imgEl.offsetWidth);   
+                H += slideEl.offsetWidth;
+                widthsArr.push(slideEl.offsetWidth)
 
-				       		console.log("scrollEl - h", scrollerEl.getBoundingClientRect() )
+                if (widthsArr.length == numSlides) {
 
-				       		wrapEl.setAttribute("style","height:"+ (H - document.documentElement.offsetWidth ) +"px");
-				       	
-				       		document.querySelector(".gv-fade-out").classList.add("remove")
+                    // console.log(H - document.documentElement.offsetWidth)
 
-				       	}
-						
-				    }; 
-				     
-				});
-			
- 	 
-	});
+                    console.log("scrollEl - h", scrollerEl.getBoundingClientRect())
 
-	addListenersDesktop();
+                    wrapEl.setAttribute("style", "height:" + (H - document.documentElement.offsetWidth) + "px");
+
+                    document.querySelector(".gv-fade-out").classList.add("remove")
+
+                }
+
+            };
+
+        });
+
+
+    });
+
+    addListenersDesktop();
 
 }
-
 
 function getScroll() {
     var target = $("#target");
     $("#source").scroll(function() {
-      target.prop("scrollTop", this.scrollTop)
+        target.prop("scrollTop", this.scrollTop)
             .prop("scrollLeft", this.scrollLeft);
     });
- }
+}
 
-	var noTweak = true;
+var noTweak = true;
 
-function addListenersDesktop(){
+function addListenersDesktop() {
 
-	
-//https://stackoverflow.com/questions/16376794/on-div-scroll-activate-another-divs-scroll
-	
-	
+    document.addEventListener("scroll", function() {
 
-
-  document.addEventListener("scroll", function(){
-
-  		console.log((visibleY(headEl)))		
+        document.getElementById('slideWrapper').classList.add('fixed');
 
 
+        //scrollerEl.scrollLeft = document.documentElement.scrollTop;
 
-  		document.getElementById('slideWrapper').classList.add('fixed');
-  		
+        if (noTweak) {
+            let newH = wrapEl.getBoundingClientRect().height + (scrollerEl.getBoundingClientRect().height); //- headEl.offsetHeight
+            wrapEl.setAttribute("style", "height:" + newH + "px");
+            noTweak = false;
+        }
 
-  		//scrollerEl.scrollLeft = document.documentElement.scrollTop;
+        //console.log(headEl.offsetHeight +"> = < ???" + wrapEl.getBoundingClientRect().top)
 
-  		if (noTweak){
-  			let newH = wrapEl.getBoundingClientRect().height + (scrollerEl.getBoundingClientRect().height - headEl.offsetHeight);
-			wrapEl.setAttribute("style","height:"+ newH +"px");
-			noTweak=false;
-  		}
+        if (notShownY(headEl)) {
+            scrollerEl.style.transform = "translateX(" + (wrapEl.getBoundingClientRect().top) + "px)";
+        } else {
+            scrollerEl.style.transform = "translateX(0)";
+        }
 
-
-  		// if(visibleY(headEl)){
-
-  			// if(headEl.getBoundingClientRect().top > (0 - headEl.getBoundingClientRect().height) ){
-  			// 	let newT =   (headEl.getBoundingClientRect().top  * -1) - (0-headEl.getBoundingClientRect().height);
-  			// 	console.log(headEl.getBoundingClientRect().height , headEl.getBoundingClientRect().top * -1)
-  			// 	introEl.setAttribute("style","bottom:"+ newT +"px");
-
-  			// 	//introEl.style.transform = "translateY("+(document.documentElement.getBoundingClientRect().top )+"px)";
-  			// }
-
-
-  			//introEl.classList.add("ani");
-  			scrollerEl.style.transform = "translateX("+(document.documentElement.getBoundingClientRect().top )+"px)";
-  		//}
-
-
-  })
-
-
-
-  //   document.addEventListener("scroll", function(){
-
-  // 		console.log("pos",  wrapEl.getBoundingClientRect(), wrapEl.offsetTop) 
-
-  // 		document.getElementById('slideWrapper').classList.add('fixed');
-
-  // 		//scrollerEl.style.transform = "translateX("+(0- 174 - wrapEl.getBoundingClientRect().top )+"px)";
-
-  // 		// CLOSE scrollerEl.style.transform = "translateX("+(0 - wrapEl.getBoundingClientRect().bottom)+"px)";
-
-  // 		scrollerEl.scrollLeft = document.documentElement.scrollTop;
-
-
-  // })
-
-
-
-	// document.addEventListener("scroll", function(event) {
-	             
-	            
-	//             	document.getElementById('slideWrapper').classList.add('fixed');
-
-	//             	var sx, sy;
-	// 		             if(window.pageYOffset!= undefined){
-	// 		                sx = pageXOffset;
-	// 		                sy = pageYOffset;
-	// 		             }
-	// 		             else{
-	// 			            var d = document, r = d.documentElement, b = d.body;
-	// 			              sx= r.scrollLeft || b.scrollLeft || 0;
-	// 			              sy= r.scrollTop || b.scrollTop || 0;
-	// 		             }
-
-	// 	             //console.log(wrapEl.getBoundingClientRect(), document.documentElement.offsetWidth, document.documentElement.offsetHeight)
-	// 	             scrollSlider ([sx, sy]);
-
-	// 	        //introPlayed ? scrollSlider ([sx, sy]): scrollIntro([sx, sy]);
-
-	// 			// if(visibleY(headEl)) {
-
-	//    //          }else{
-	//    //          	scrollerEl.style.transform = "translateX(0px)";
-	//    //          	document.getElementById('slideWrapper').classList.remove('fixed');
-	//    //          }
-	//     });
-
+    })
 
 }
 
 
-function scrollSlider(s){
+function scrollSlider(s) {
 
-	//console.log(s[1])
-	let newX = (0 - s[1]);
+    //console.log(s[1])
+    let newX = (0 - s[1]);
 
-	// if(newX > (0 - document.documentElement.offsetWidth)){ - document.documentElement.offsetWidth
-		scrollerEl.style.transform = "translateX("+(newX - document.documentElement.offsetWidth)+"px)";
+    // if(newX > (0 - document.documentElement.offsetWidth)){ - document.documentElement.offsetWidth
+    scrollerEl.style.transform = "translateX(" + (newX - document.documentElement.offsetWidth) + "px)";
 
-	//}
-	
-	var a = wrapEl.scrollTop;
-	var b = wrapEl.offsetHeight - wrapEl.scrollTop;
-	// var c = a/b; //% of scroll --- https://stackoverflow.com/questions/2481350/how-to-get-scrollbar-position-with-javascript
-	//console.log(a,b);
+    //}
 
-	if ((headEl.getBoundingClientRect().top  * -1 ) > 2000){
-		introPlayed = false;
-	}
+    var a = wrapEl.scrollTop;
+    var b = wrapEl.offsetHeight - wrapEl.scrollTop;
+    // var c = a/b; //% of scroll --- https://stackoverflow.com/questions/2481350/how-to-get-scrollbar-position-with-javascript
+    //console.log(a,b);
+
+    if ((headEl.getBoundingClientRect().top * -1) > 2000) {
+        introPlayed = false;
+    }
 }
 
-function scrollIntro(s){
-	let newY = s[1];
-	let newPos = introEl.getBoundingClientRect().bottom;
-	newPos += newY;
-	if ((headEl.getBoundingClientRect().top  * -1 ) > 2000){
-		introPlayed = true;
-	}else{
-		introEl.style.transform= "translateY(300px)";
+function scrollIntro(s) {
+    let newY = s[1];
+    let newPos = introEl.getBoundingClientRect().bottom;
+    newPos += newY;
+    if ((headEl.getBoundingClientRect().top * -1) > 2000) {
+        introPlayed = true;
+    } else {
+        introEl.style.transform = "translateY(300px)";
 
-		console.log(newPos)
-	}
+        console.log(newPos)
+    }
 }
 
-function visibleY(el){
-	return (el.offsetHeight * -1) > el.getBoundingClientRect().top;
+function notShownY(el) {
+    return (el.offsetHeight * -1) > el.getBoundingClientRect().top;
 }
 
 
 init();
 
 
+///////////////timer example
 
 
-///////////////timer
+// wrapAll.addEventListener("scroll", doThisStuffOnScroll);
 
+// var didScroll = false;
 
-	// wrapAll.addEventListener("scroll", doThisStuffOnScroll);
+// document.onscroll = doThisStuffOnScroll;
 
-	// var didScroll = false;
+// function doThisStuffOnScroll() {
+//     didScroll = true;
+// }
 
-	// document.onscroll = doThisStuffOnScroll;
-
-	// function doThisStuffOnScroll() {
-	//     didScroll = true;
-	// }
-
-	// setInterval(function() {
-	//     if(didScroll) {
-	//         didScroll = false;
-	//         console.log(wrapAll.scrollHeight - wrapAll.clientHeight);
-	//     }
-	// }, 100);
+// setInterval(function() {
+//     if(didScroll) {
+//         didScroll = false;
+//         console.log(wrapAll.scrollHeight - wrapAll.clientHeight);
+//     }
+// }, 100);
