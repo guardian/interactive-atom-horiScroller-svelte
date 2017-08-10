@@ -1,6 +1,6 @@
 $mobile-max-h: 400px;
 $desktop-max-h: none;
-
+$multimedia-main-2: #ffbb00;
 $cappy-h-desktop: 216px;
 
 
@@ -11,6 +11,7 @@ $cappy-h-desktop: 216px;
 	overflow-x: hidden;
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
+	background-color: #000;
 	@include mq(desktop){
 		overflow-x: hidden;
     	overflow-y: hidden;
@@ -38,6 +39,9 @@ $cappy-h-desktop: 216px;
     white-space: nowrap;
     word-spacing:0;
     background-color:#000;
+    transition-timing-function: ease-out;
+  //transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+  	transition: 0.25s;
     @include mq(desktop){
     	height: 100vh;
 		overflow-x: hidden;
@@ -70,7 +74,6 @@ $cappy-h-desktop: 216px;
 		position: absolute;
 		bottom: 0px;
 		left: 10px;
-		width: 140px;
 		height: 90px; 
 		padding: 12px 24px 12px 12px;
 		background-color: rgba(#000, 0.8);
@@ -89,8 +92,6 @@ $cappy-h-desktop: 216px;
 
 		@include mq(desktop){
 			bottom: 36px;
-			left: 60px;
-			width: 360px;
 			height: $cappy-h-desktop; 
 			padding: 12px 24px 12px 12px;
 			background-color: rgba(#000, 0.8);
@@ -104,11 +105,9 @@ $cappy-h-desktop: 216px;
 			}
 
 			&.opening{
-				left: 60px;
 				bottom: -316px;
 
 				&.ani{
-					left: 60px;
 					bottom: 36px;
 					transition: 0.5s linear;
 				}
@@ -120,23 +119,35 @@ $cappy-h-desktop: 216px;
 
 
 			}
+
+			&:before{
+				content:'';
+				position:absolute;
+				width:70px;
+				height:3px;
+				top:0;
+				left: 0;
+				background-color: $multimedia-main-2;
+
+
+			}
 			
 		}
 
 	}
 }
 
-.gv-fade-out{
+.gv-intro-panel{
 	position:absolute;
 	top: 0;
 	left:0;
-	height: 100vh;
+	height: 100%;
 	width:100%;
-	background-color:rgba(black,1);
+	background-color:#000;
 
-	&.fade {
-	  opacity: 0.75;
-	  transition: opacity 1.5s linear;
+	&.fade-half {
+	  background-color:rgba(#000,0.8);
+	  transition: background-color 1.5s linear;
 	}
 
 	&.remove {
@@ -145,6 +156,51 @@ $cappy-h-desktop: 216px;
 	  transition: visibility 0s 3s, opacity 3s linear;
 	}
 }
+
+.gv-intro-panel-text{
+	margin-top:120px;
+
+
+
+	h3{
+		@include fs-headline(9);
+		font-weight:300;
+		
+	}
+
+	p{
+		@include fs-bodyCopy(3);
+	}
+
+	h5{
+		@include fs-textSans(4);
+	}
+
+	h3,h5{
+		color: $multimedia-main-2;
+	}
+
+
+	
+}
+
 .gv-slide-wrapper, .gv-slides-container, .gv-slide-item{
 	//max-height:852px;
+}
+
+.gv-intro-panel-text, .gv-slide-item-text{
+
+	margin-left:20px;
+	color: #FFF;
+	width:240px;
+
+	@include mq(desktop){
+		margin-left: 140px;
+		width: 360px;
+	}
+	@include mq(leftCol){
+		margin-left: 240px;
+		width: 520px;
+	}
+	
 }
