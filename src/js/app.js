@@ -8,18 +8,19 @@ let introPanelEl;
 let widthsArr = [];
 let scrollerEl;
 let introCaptionEl;
+let introTxt;
 let introPlayed = false;
 
-console.log(lazysizes)
 
 function init() {
-    document.documentElement.offsetWidth > 979 ? screenFormat = "desktop" : screenFormat = "mobile";
+    document.documentElement.offsetWidth > 979 ? screenFormat = "desktop" : screenFormat = "mobile"; console.log( screenFormat)
     H = 0;
     headEl = document.getElementById("bannerandheader");
     wrapEl = document.querySelector(".gv-wrap-all");
     scrollerEl = document.getElementById("slideScroller")
     introCaptionEl = document.getElementById("introCappy");
     introPanelEl = document.querySelector(".gv-intro-panel");
+    introTxt = document.querySelector(".gv-intro-panel-text");
     checkScreenSize();
 }
 
@@ -29,9 +30,9 @@ function checkScreenSize() {
 }
 
 function initMobile() {
-    introPanelEl.classList.add("fade-half")
+    introPanelEl.classList.add("fade-half");
     console.log("mobile");
-    introCaptionEl.style.bottom = "0px";
+    //introCaptionEl.style.bottom = "0px";
 
     addListenersMobile();
 }
@@ -87,10 +88,15 @@ function addListenersDesktop() {
 
         if (notShownY(headEl)) {
             scrollerEl.style.transform = "translateX(" + (wrapEl.getBoundingClientRect().top) + "px)";
-            introPanelEl.classList.add("remove");
+            introTxt.classList.remove("fade-back-in");
+            introTxt.classList.add("fade-out");
+            introPanelEl.classList.remove("fade-half");
+            introPanelEl.classList.add("fade-out");
         } else {
             scrollerEl.style.transform = "translateX(0)";
-            introPanelEl.classList.remove("remove");
+            introTxt.classList.remove("fade-out");
+            introTxt.classList.add("fade-back-in");
+            introPanelEl.classList.remove("fade-out");
             introPanelEl.classList.add("fade-half");
         }
 
@@ -99,9 +105,11 @@ function addListenersDesktop() {
 }
 
 function addListenersMobile(){
-	introPanelEl.addEventListener("click", function() {
-		introPanelEl.classList.add("remove");
+    console.log("mob")
+	document.addEventListener("scroll", function() {
 
+		  introPanelEl.classList.remove("fade-half");
+        introPanelEl.classList.add("fade-out");
 	})
 
 }

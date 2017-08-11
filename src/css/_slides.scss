@@ -146,13 +146,19 @@ $cappy-h-desktop: 216px;
 	background-color:#000;
 
 	&.fade-half {
-	  background-color:rgba(#000,0.8);
+	  background-color:rgba(#000, 0.8);
 	  transition: background-color 1.5s linear;
 	}
 
-	&.remove {
+	&.fade-back-in{
+	  visibility: visible;
+	  background-color:rgba(#000,  0.8);
+	  transition: visibility 0s 3s, opacity 3s linear;
+	}
+
+	&.fade-out {
 	  visibility: hidden;
-	  opacity: 0;
+	  background-color:rgba(#000, 0);
 	  transition: visibility 0s 3s, opacity 3s linear;
 	}
 }
@@ -160,12 +166,9 @@ $cappy-h-desktop: 216px;
 .gv-intro-panel-text{
 	margin-top:120px;
 
-
-
 	h3{
 		@include fs-headline(9);
-		font-weight:300;
-		
+		font-weight:300;	
 	}
 
 	p{
@@ -181,7 +184,7 @@ $cappy-h-desktop: 216px;
 	}
 
 
-	
+
 }
 
 .gv-slide-wrapper, .gv-slides-container, .gv-slide-item{
@@ -201,6 +204,16 @@ $cappy-h-desktop: 216px;
 	@include mq(leftCol){
 		margin-left: 240px;
 		width: 520px;
+	}
+
+	&.fade-back-in{
+	  opacity: 1;
+	  transition: opacity 1s linear;
+	}
+
+	&.fade-out {
+	  opacity: 0;
+	  transition: opacity 0.5s linear;
 	}
 	
 }

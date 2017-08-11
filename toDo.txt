@@ -10,6 +10,8 @@
 
 6. Lazyload small img sizes
 
-• Hold when headerbanner goes out of view 
+7. Fade back in intro properly on user scrollback - it jumps in now
+
+• Hold when headerbanner goes out of view XX
 • Scroll in text caption
-• Scroll image slider 
+• Scroll image slider XX
