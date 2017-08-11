@@ -40,36 +40,27 @@ function initMobile() {
 
 function initDesktop() {
 
-    let numSlides = document.getElementsByClassName('gv-slide-item').length;
+    let numSlides = [].slice.apply(document.getElementsByClassName('gv-wrap-all-slides')).length;
+    console.log(document.getElementsByClassName('gv-wrap-all-slides'));
+    let widthsArr = [];
 
-    [].slice.apply(document.getElementsByClassName('gv-slide-item')).forEach(slideEl => {
+    // [].slice.apply(document.getElementsByClassName('gv-slide-container')).forEach(slideEl => {
 
-        [].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
-            imgEl.onload = function() {
-                //console.log ("The image has loaded!", imgEl.offsetWidth);   
-                H += slideEl.offsetWidth;
-                widthsArr.push(slideEl.offsetWidth)
+    //     [].slice.apply(slideEl.getElementsByTagName("img")).forEach(imgEl => {
+    //         imgEl.onload = function() {  console.log(imgEl)  }
+    //         // var event = triggerEvent(imgEl);
+    //     })
 
-                if (widthsArr.length == numSlides) {
+    // });
 
-                    // console.log(H - document.documentElement.offsetWidth)
-
-                    console.log("scrollEl - h", scrollerEl.getBoundingClientRect())
-
-                    wrapEl.setAttribute("style", "height:" + (H - document.documentElement.offsetWidth) + "px");
-
-                    introPanelEl.classList.add("fade-half")
-
-                }
-
-            };
-
-        });
-
-    });
+    
 
     addListenersDesktop();
 
+}
+
+function triggerEvent(imgEl){
+   //console.log( imgEl.classList['lazyload'] ); 
 }
 
 var noTweak = true;
@@ -78,22 +69,12 @@ function addListenersDesktop() {
 
     document.addEventListener("scroll", function() {
 
-        document.getElementById('slideWrapper').classList.add('fixed');
-
-        if (noTweak) {
-            let newH = wrapEl.getBoundingClientRect().height + (scrollerEl.getBoundingClientRect().height); //- headEl.offsetHeight
-            wrapEl.setAttribute("style", "height:" + newH + "px");
-            noTweak = false;
-        }
-
         if (notShownY(headEl)) {
-            scrollerEl.style.transform = "translateX(" + (wrapEl.getBoundingClientRect().top) + "px)";
             introTxt.classList.remove("fade-back-in");
             introTxt.classList.add("fade-out");
             introPanelEl.classList.remove("fade-half");
             introPanelEl.classList.add("fade-out");
         } else {
-            scrollerEl.style.transform = "translateX(0)";
             introTxt.classList.remove("fade-out");
             introTxt.classList.add("fade-back-in");
             introPanelEl.classList.remove("fade-out");
@@ -107,8 +88,7 @@ function addListenersDesktop() {
 function addListenersMobile(){
     console.log("mob")
 	document.addEventListener("scroll", function() {
-
-		  introPanelEl.classList.remove("fade-half");
+        introPanelEl.classList.remove("fade-half");
         introPanelEl.classList.add("fade-out");
 	})
 
